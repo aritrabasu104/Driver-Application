@@ -1,31 +1,8 @@
 
-## JUST USE "npm install" FROM PROJECT ROOT DIRECTORY AND RUN THE APPLICATION!!
 ## MUST MODIFY THE IP AND PORT NUMBER WITH YOUR ONES IN src/helper/globalvars.ts
-
 ##CURRENTLY WORKING MODULES - AMBULANCE
 
-/* modules to be installed automatically!!
 
-storage
-geolocation
-leaflet
-fullscreen(for android)
-android-permissions
-splashscreen
-cordova-plugin-request-location-accuracy
-cordova-plugin-insomnia(for keeping screen awake)
-
-
-ionic cordova plugin add cordova-sqlite-storage
-npm install --save @ionic/storage
-
-ionic cordova plugin add cordova-plugin-geolocation
-npm install --save @ionic-native/geolocation
-
-npm install leaflet --save
-npm install @types/leaflet --save
-
-*/
 
 
 
