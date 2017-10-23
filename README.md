@@ -8,25 +8,43 @@
 
 ## How to use this template
 
-*This template does not work on its own*. The shared files for each starter are found in the [ionic2-app-base repo](https://github.com/ionic-team/ionic2-app-base).
-
-To use this template, either create a new ionic project using the ionic node.js utility, or copy the files from this repository into the [Starter App Base](https://github.com/ionic-team/ionic2-app-base).
-
+*This template does not work on its own*. 
+To use this template, follow the instructions
 ### With the Ionic CLI:
 
-Take the name after `ionic2-starter-`, and that is the name of the template to be used when using the `ionic start` command below:
+Install npm first,then install ionic and cordova (to uninstall simply replace install with uninstall)
 
 ```bash
 $ sudo npm install -g ionic cordova
-$ ionic start myBlank blank
 ```
 
-Then, to run it, cd into `myBlank` and run:
+Then, to install required modules, cd into `Driver-Application` and run:
 
 ```bash
-$ ionic cordova platform add ios
-$ ionic cordova run ios
+$ npm install
 ```
+Then, to run it, cd into `Driver-Application` and run:
 
-Substitute ios for android if not on a Mac.
+```bash
+$ ionic serve --lab
+```
+and to build for some os(Need to have Cordova 6 for firefoxos- uninstall cordovba 7 then use npm install -g cordova@6)
+
+```bash
+$ ionic cordova build android
+$ ionic cordova build ios
+$ ionic cordova build firefoxos
+$ ionic cordova build windows
+```
+#### modules to be installed automatically!!
+
+storage
+geolocation
+leaflet
+fullscreen(for android)
+android-permissions
+splashscreen
+cordova-plugin-request-location-accuracy
+cordova-plugin-insomnia(for keeping screen awake)
+
 
