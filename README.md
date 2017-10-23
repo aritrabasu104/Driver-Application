@@ -1,4 +1,5 @@
 
+# This app is for  tracking vehicles - Ambulance /Bus / Police Car using a mobile device
 ## MUST MODIFY THE IP AND PORT NUMBER WITH YOUR ONES IN src/helper/globalvars.ts
 ##CURRENTLY WORKING MODULES - AMBULANCE
 
