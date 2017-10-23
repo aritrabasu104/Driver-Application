@@ -1,0 +1,56 @@
+<!--
+  Generated template for the AmbulanceconfigPage page.
+
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+
+<ion-header>
+  
+      <p></p>
+      <ion-title>Driver App</ion-title>
+    
+  
+  </ion-header>
+<ion-content>
+  <form [formGroup]="ambulanceConfigForm" (ngSubmit)="saveConfig()">
+    <ion-item>
+      <ion-label floating>Registration No.</ion-label>
+      <ion-input type="text" formControlName="vehicleNo" ></ion-input>
+    </ion-item>
+    <p></p>
+    <ion-item>
+      <ion-label>Facility type</ion-label>
+      <ion-select formControlName="facilityType">
+        <ion-option value="normal">Normal</ion-option>
+        <ion-option value="contagious">Contagious</ion-option>
+        <ion-option value="lifesupport">Life Support</ion-option>
+        <!--<ion-option *ngFor="let entry of facilityTypeValues.values" value="{{entry.nodalAgencyId}}">{{entry.nodalAgencyName}}</ion-option>-->
+      </ion-select>
+    </ion-item>
+    <ion-item>
+      <ion-label floating>Owner's name</ion-label>
+      <ion-input formControlName="ownerName"></ion-input>
+    </ion-item>
+   <ion-item>
+      <ion-label floating>Nodal Agency</ion-label>
+      <ion-select formControlName="nodalAgencyId" #NA (ionChange)="onChange(NA.value, nodadalAgencies)">
+          <ion-option *ngFor="let entry of nodadalAgencies.data" value="{{entry.nodalAgencyId}}">{{entry.nodalAgencyName}}</ion-option>
+     </ion-select>
+    </ion-item> 
+    <ion-item>
+      <ion-label floating>Nodal Agency Person</ion-label>
+      <ion-input formControlName="nodalAgencyPerson" #NAP></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label floating>Nodal Agency Contact:</ion-label>
+      <ion-input formControlName="nodalAgencyContact" #NAC></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label>Publicly Visible?</ion-label>
+      <ion-toggle formControlName="publicVisible"></ion-toggle>
+    </ion-item>
+    <p></p>
+    <button ion-button block type="submit" [disabled]="!ambulanceConfigForm.valid">Save</button>
+  </form>
+</ion-content>
