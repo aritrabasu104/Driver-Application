@@ -1,16 +1,19 @@
 
 # This app is for  tracking vehicles - Ambulance /Bus / Police Car using a mobile device
-## MUST MODIFY THE IP AND PORT NUMBER WITH YOUR ONES IN src/helper/globalvars.ts
-##CURRENTLY WORKING MODULES - AMBULANCE
-
-
-
-
+### MUST MODIFY THE IP AND PORT NUMBER WITH YOUR ONES IN src/helper/globalvars.ts
+### CURRENTLY WORKING MODULES - AMBULANCE
+### Some sections have been commented out to make the project runnable w/o apis
+files modified
+home.ts
+ambulanceconfig.html
+ambulanceconfig.ts
+ambulancemain.ts
 
 ## How to use this template
 
 *This template does not work on its own*. 
 To use this template, follow the instructions
+
 ### With the Ionic CLI:
 
 Install npm first,then install ionic and cordova (to uninstall simply replace install with uninstall)
