@@ -38,15 +38,19 @@ export class HomePage {
       {
         //console.log('storage',val);
         if(val==null){
+            
+
+            /*UNCOMMENT THIS WHEN U HAVE UR API ENDPOINTS */
+            /* 
             loader.present();
             this.httpClient.get(GlobalVars.END_POINT_GET_ALL_NODAL_AGENCIES).map((res: Response) => res).subscribe(data => {
           
             let jsonData:string=JSON.stringify(data);
             this.storage.set(GlobalVars.nodal_agencies_storage_key,jsonData);  
             //console.log("nodadalAgencies",jsonData);
-            loader.dismiss();
+            loader.dismiss();*/
             this.navCtrl.push(AmbulanceconfigPage);
-        });
+        /*});*/
       }else
       {
         this.navCtrl.push(AmbulanceconfigPage);
