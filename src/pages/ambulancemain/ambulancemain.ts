@@ -122,7 +122,8 @@ export class AmbulancemainPage {
       this.marker.setLatLng(this.center);      
     });
     //new L.Polyline(polylinePoints, polylineOptions);
-    this.sendLocationData();
+    /*UNCOMMENT THIS WHEN U HAVE UR API ENDPOINTS */
+    //this.sendLocationData();
   }
   manageDrawnPath(){
     if(this.polyline!=null)
