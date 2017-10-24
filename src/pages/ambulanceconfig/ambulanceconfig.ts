@@ -100,9 +100,12 @@ export class AmbulanceconfigPage {
       let loader = this.loadingCtrl.create({
         content: "Please wait...",
       });
+      
+      /*UNCOMMENT THIS WHEN U HAVE UR API ENDPOINTS */
+      /*
+      this.populateConfigObject();
       loader.present();
 
-      this.populateConfigObject();
       this.httpClient.post(GlobalVars.END_POINT_SEND_AMBULANCE_CONFIG_DATA, JSON.stringify(this.ambulanceConfig), {
         headers: new HttpHeaders().set("Content-type", "application/json"),
       })
@@ -117,7 +120,7 @@ export class AmbulanceconfigPage {
           loader.dismiss();
           console.log('could not save config!'+err);
         }
-      );
+      );*/
       //console.log(JSON.stringify(this.ambulanceConfig));
       this.storage.set(GlobalVars.vehicle_config_key_ambulance,JSON.stringify(this.ambulanceConfig));
       this.gotoMainPage();
