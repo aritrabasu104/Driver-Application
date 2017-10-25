@@ -1,5 +1,15 @@
 
-# This app is for  tracking vehicles - Ambulance /Bus / Police Car using a mobile device
+# This app is for  tracking vehicles - Ambulance /Bus / Police Car using a mobile device running android/ ios/ windows/ firefoxos/ blackberry etc.
+
+## Features:
+```
+1.Save vehicle configuration and send the same to server.
+2.Send location and status data to server periodically.
+3.Show the location and path followed by vehicle in map(osm).
+4.Change status of vehicle(Empty/Occupied for ambulance).
+5.Screen won't turn off if till out of power in map page.
+```
+
 ## How to use this template
 
 *This template does not work on its own*. 
@@ -45,6 +55,7 @@ cordova-plugin-insomnia(for keeping screen awake)
 ### MUST MODIFY THE IP AND PORT NUMBER WITH YOUR APIS IN src/helper/globalvars.ts
 ### CURRENTLY WORKING MODULES - AMBULANCE
 ### Some sections have been commented out to make the project runnable w/o apis
+
 files modified
 ```
 home.ts
