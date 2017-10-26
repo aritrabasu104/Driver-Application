@@ -1,5 +1,5 @@
 import { Component, ViewChild } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { IonicPage, NavController, NavParams,Platform } from 'ionic-angular';
 import {Validators, FormBuilder, FormGroup,FormControl } from '@angular/forms';
 import { Storage } from '@ionic/storage';
 import * as GlobalVars from './../../helper/globalvars';
@@ -29,6 +29,7 @@ export class AmbulanceconfigPage {
 
   @ViewChild('NAP') NAP;
   @ViewChild('NAC') NAC;
+  private unregisterBackButtonAction: any;
   private nodadalAgencies : NodalAgencies=new NodalAgencies();
   private facilityTypeValues = GlobalVars.facility_type_values;
   private ambulanceConfigForm : FormGroup=new FormGroup({controllername:new FormControl()});
@@ -36,7 +37,8 @@ export class AmbulanceconfigPage {
 
   constructor(public navCtrl: NavController,private storage:Storage,
     public navParams: NavParams, private formBuilder: FormBuilder
-    ,private httpClient:HttpClient,public loadingCtrl: LoadingController) {
+    ,private httpClient:HttpClient,public loadingCtrl: LoadingController,
+    private platform:Platform) {
       
       this.ambulanceConfigForm = this.formBuilder.group({
       vehicleNo:['',Validators.compose([Validators.minLength(8), Validators.maxLength(10), Validators.pattern('[a-zA-Z0-9 ]*'), Validators.required])],
@@ -45,11 +47,24 @@ export class AmbulanceconfigPage {
       ownerName:'',
       nodalAgencyId:['',Validators.required],
       publicVisible:true,
-      nodalAgencyContact:[],
+      nodalAgencyContact:'',
       nodalAgencyPerson:''
     });
     
   }
+
+
+ionViewWillLeave() {
+    // Unregister the custom back button action for this page
+    this.unregisterBackButtonAction && this.unregisterBackButtonAction();
+}
+
+public initializeBackButtonCustomHandler(): void {
+    this.unregisterBackButtonAction = this.platform.registerBackButtonAction(() => {
+    }, 10);
+}
+
+
   ionViewDidLoad(){
     this.storage.get(GlobalVars.vehicle_config_key_ambulance).then(result=>{
       if(result != null){
@@ -63,6 +78,9 @@ export class AmbulanceconfigPage {
   }
   
   ionViewDidEnter(){
+    //to disable back button
+    this.initializeBackButtonCustomHandler();
+
     this.storage.get(GlobalVars.vehicle_config_key_ambulance).then(result=>{
       if(result != null){
         this.ambulanceConfig =JSON.parse(result);
@@ -89,52 +107,59 @@ export class AmbulanceconfigPage {
     });
     
   }
-  onChange(NAValue:string, nodalAgencies:NodalAgencies) {
-       console.log(NAValue);
-       this.NAP.value=nodalAgencies.data[NAValue].nodalAgencyPerson;
-       this.NAC.value=nodalAgencies.data[NAValue].nodalAgencyPhone;
+  onChange(NAValue:number, nodalAgencies:NodalAgencies) {
+       //console.log(NAValue);
+       nodalAgencies.data.forEach(value=>{
+          if(value.nodalAgencyId == NAValue){
+            this.NAP.value=value.nodalAgencyPerson;
+            this.NAC.value=value.nodalAgencyPhone;
+          }
+       });
       }
 
   saveConfig(){
-      console.log(this.ambulanceConfigForm.value);
+      
       let loader = this.loadingCtrl.create({
         content: "Please wait...",
       });
       
-      /*UNCOMMENT THIS WHEN U HAVE UR API ENDPOINTS */
-      /*
+      //console.log('saveconfig');
       this.populateConfigObject();
       loader.present();
 
-      this.httpClient.post(GlobalVars.END_POINT_SEND_AMBULANCE_CONFIG_DATA, JSON.stringify(this.ambulanceConfig), {
+      let ambulanceConfigJson:string = JSON.stringify(this.ambulanceConfig);
+      this.httpClient.post(GlobalVars.END_POINT_SEND_AMBULANCE_CONFIG_DATA, ambulanceConfigJson,{
         headers: new HttpHeaders().set("Content-type", "application/json"),
+        responseType:"text",
+      
       })
       .subscribe( data => {
         console.log('config saved');
-        this.storage.set(GlobalVars.vehicle_config_key_ambulance,JSON.stringify(this.ambulanceConfig));
+        this.storage.set(GlobalVars.vehicle_config_key_ambulance,ambulanceConfigJson);
         loader.dismiss();
         this.gotoMainPage();    
       },
         // Errors will call this callback instead:
         err => {
           loader.dismiss();
-          console.log('could not save config!'+err);
+          console.log(ambulanceConfigJson);
+          console.log('could not save config!',err);
         }
-      );*/
+      );
       //console.log(JSON.stringify(this.ambulanceConfig));
-      this.storage.set(GlobalVars.vehicle_config_key_ambulance,JSON.stringify(this.ambulanceConfig));
-      this.gotoMainPage();
+      this.storage.set(GlobalVars.vehicle_config_key_ambulance,ambulanceConfigJson);
+      //this.gotoMainPage();
     }
   populateConfigObject(){
+    //console.log('populateConfigObject');
     var facilityType:string;
-    facilityType = GlobalVars.facility_type_values.get(this.ambulanceConfigForm.value.facilityType);
+    facilityType = GlobalVars.facility_type_keys_by_value.get(this.ambulanceConfigForm.value.facilityType);
     var contactList:string[]=[];
-    /*
-    this.ambulanceConfigForm.value.nodalAgencyContact.forEach(element => {
+    
+    this.ambulanceConfigForm.value.nodalAgencyContact.split(',').forEach(element => {
       contactList.push(element);  
     });
-    */
-    contactList.push(this.ambulanceConfigForm.value.nodalAgencyContact);
+    
     this.ambulanceConfig=new AmbulanceConfig();
     this.ambulanceConfig.vehicleNo = this.ambulanceConfigForm.value.vehicleNo;
     this.ambulanceConfig.vehicleType = GlobalVars.vehicle_type_ambulance;
