@@ -10,15 +10,15 @@
   <p></p>
   <p></p>
   <p></p>
-  <button ion-button block>Bus/Tram</button>
+  <button ion-button block #busTram (click)="gotoPublicConfig()">Bus/Tram</button>
   <p></p>
   <p></p>
   <p></p>
-  <button ion-button block (click)="gotoAmbulanceConfig()">Ambulance</button>
+  <button ion-button block #ambulance (click)="gotoAmbulanceConfig()">Ambulance</button>
   <p></p>
   <p></p>
   <p></p>
-  <button ion-button block>Police Vehicle</button>
+  <button ion-button block #police >Police Vehicle</button>
   <p></p>
   <p></p>
 </ion-content>
