@@ -33,7 +33,6 @@ export class AmbulancemainPage {
   map: L.Map;
   center: L.PointTuple;
   private lat:number=0;
-  private boundFunction;
   private lon:number=0;
   private marker=null;
   private gpsEvent:GPSEvent;
@@ -45,7 +44,6 @@ export class AmbulancemainPage {
   private occupiedButtonDanger:boolean=false;
   private crowdStatus:string = "E";
   private  polyline=null;
-  private unregisterBackButtonAction: any;
   private polylinePoints = [];
   private polylineOptions = {
     color: 'blue',
@@ -80,12 +78,10 @@ export class AmbulancemainPage {
       
       this.insomnia.keepAwake()
       .then(
-        () => console.log('insomnia success'),
-        () => console.log('insomnia error')
+        () => console.log('success'),
+        () => console.log('error')
       );
     
-
-      
   } 
    
     
@@ -98,51 +94,9 @@ export class AmbulancemainPage {
     
     //this.sendLocationData();
   }
-  ionViewWillLeave() {
-    // Unregister the custom back button action for this page
-    this.unregisterBackButtonAction && this.unregisterBackButtonAction();
-    document.removeEventListener(GlobalVars.EVENT_LISTENER_TYPE_KEYBOARD,this.boundFunction,false);
-  }
-  public initializeBackButtonCustomHandler(): void {
-    this.unregisterBackButtonAction = this.platform.registerBackButtonAction(() => {}, 10);
-  }
-  handleKeyBoard(event:KeyboardEvent):void{
-    
-    const keyName = event.key;
-    if (event.defaultPrevented) {
-      return; // Do nothing if the event was already processed
-    }
-    
-    switch (event.key) {
-      case "ArrowDown":
-        this.map.setZoom(this.map.getZoom()-1)
-        break;
-      case "ArrowUp":
-        this.map.setZoom(this.map.getZoom()+1)
-        //this.goToConfigPage();
-        break;
-      case "ArrowLeft":
-      this.changeCrowdStatus();
-        break;
-      case "ArrowRight":
-        this.moveToCenter();
-        break;
-      case "Enter":
-        this.goToConfigPage();
-        break;
-      
-      default:
-        return; // Quit when this doesn't handle the key event.
-    }
   
-    // Cancel the default action to avoid it being handled twice
-    event.preventDefault();
-  }
   ionViewDidEnter(){
-    //to disable back button
-    this.initializeBackButtonCustomHandler();
-    this.boundFunction =this.handleKeyBoard.bind(this);
-    document.addEventListener(GlobalVars.EVENT_LISTENER_TYPE_KEYBOARD,this.boundFunction,false);
+    
 
     this.watch = this.geolocation.watchPosition();
     this.watch.subscribe(pos => {
@@ -150,10 +104,9 @@ export class AmbulancemainPage {
       if(this.lat != pos.coords.latitude || this.lon != pos.coords.longitude){ 
         this.lat=pos.coords.latitude;
         this.lon=pos.coords.longitude;
-        console.log('lat',this.lat,'lon',this.lon);
+        
       }
-      if(this.lat!=0 || this.lon!=0)
-        this.manageDrawnPath();
+      this.manageDrawnPath();
       this.center=[this.lat,this.lon];
       if(!this.isSetCenter){
         this.map.setView(this.center,this.map.getZoom());
@@ -169,7 +122,8 @@ export class AmbulancemainPage {
       this.marker.setLatLng(this.center);      
     });
     //new L.Polyline(polylinePoints, polylineOptions);
-    this.sendLocationData();
+    /*UNCOMMENT THIS WHEN U HAVE UR API ENDPOINTS */
+    //this.sendLocationData();
   }
   manageDrawnPath(){
     if(this.polyline!=null)
@@ -208,12 +162,11 @@ export class AmbulancemainPage {
     this.ambulanceServerCallObject.gpsEvent =this.gpsEvent ;
     this.ambulanceServerCallObject.crowdStatus = this.crowdStatus;
     
-    //console.log('ambulanceServerCallObject json'+ JSON.stringify(this.ambulanceServerCallObject));
+    console.log('ambulanceServerCallObject json'+ JSON.stringify(this.ambulanceServerCallObject));
     
-    if(this.lat!=0.0 || this.lon!=0.0){
+    if(this.lat!=0 || this.lon!=0){
       this.httpClient.post(GlobalVars.END_POINT_SEND_AMBULANCE_DATA, this.ambulanceServerCallObject, {
         headers: new HttpHeaders().set("Content-type", "application/json"),
-        responseType:"text",
       })
       .subscribe( data => {
         console.log('location data sent');
@@ -235,8 +188,8 @@ export class AmbulancemainPage {
     this.polylinePoints=[];
     this.insomnia.allowSleepAgain()
     .then(
-      () => console.log('Indomnia success'),
-      () => console.log('Indomnia error')
+      () => console.log('success'),
+      () => console.log('error')
     );
   }
   changeCrowdStatus(){

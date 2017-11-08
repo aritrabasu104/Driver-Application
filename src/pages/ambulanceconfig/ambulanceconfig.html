@@ -16,31 +16,34 @@
   <form [formGroup]="ambulanceConfigForm" (ngSubmit)="saveConfig()">
     <ion-item>
       <ion-label floating>Registration No.</ion-label>
-      <ion-input type="text" formControlName="vehicleNo" #vehicleNo></ion-input>
+      <ion-input type="text" formControlName="vehicleNo" ></ion-input>
     </ion-item>
     <p></p>
     <ion-item>
       <ion-label>Facility type</ion-label>
-      <ion-select formControlName="facilityType"  #facilityType [(ngModel)]="facilityModel">
-        <ion-option value='normal' #facilityNormal >Normal</ion-option>
-        <ion-option value='contagious' #facilityContagious>Contagious</ion-option>
-        <ion-option value='life_support' #facilityLifeSupport>Life Support</ion-option>
+      <ion-select formControlName="facilityType">
+        <ion-option value="normal">Normal</ion-option>
+        <ion-option value="contagious">Contagious</ion-option>
+        <ion-option value="lifesupport">Life Support</ion-option>
         <!--<ion-option *ngFor="let entry of facilityTypeValues.values" value="{{entry.nodalAgencyId}}">{{entry.nodalAgencyName}}</ion-option>-->
       </ion-select>
     </ion-item>
     <ion-item>
       <ion-label floating>Owner's name</ion-label>
-      <ion-input formControlName="ownerName" #ownerName></ion-input>
+      <ion-input formControlName="ownerName"></ion-input>
     </ion-item>
-   <ion-item>
+    <!--UNCOMMENT THIS WHEN U HAVE UR API ENDPOINTS -->
+    <!--
+    <ion-item>
       <ion-label floating>Nodal Agency</ion-label>
-      <ion-select formControlName="nodalAgencyId" #NA [(ngModel)]="nodalAgencyModel" (ionChange)="onChange(NA.value, nodalAgencies)">
-          <ion-option *ngFor="let entry of nodalAgencies.data" value="{{entry.nodalAgencyId}}">{{entry.nodalAgencyName}}</ion-option>
+      <ion-select formControlName="nodalAgencyId" #NA (ionChange)="onChange(NA.value, nodadalAgencies)">
+          <ion-option *ngFor="let entry of nodadalAgencies.data" value="{{entry.nodalAgencyId}}">{{entry.nodalAgencyName}}</ion-option>
      </ion-select>
     </ion-item> 
+  -->
     <ion-item>
       <ion-label floating>Nodal Agency Person</ion-label>
-      <ion-input formControlName="nodalAgencyPerson" #NAP ></ion-input>
+      <ion-input formControlName="nodalAgencyPerson" #NAP></ion-input>
     </ion-item>
     <ion-item>
       <ion-label floating>Nodal Agency Contact:</ion-label>
@@ -48,9 +51,10 @@
     </ion-item>
     <ion-item>
       <ion-label>Publicly Visible?</ion-label>
-      <ion-toggle formControlName="publicVisible" #publicVisible></ion-toggle>
+      <ion-toggle formControlName="publicVisible"></ion-toggle>
     </ion-item>
     <p></p>
-    <button ion-button block type="submit" #submit [outline]="!(selectedIndex==8)" [disabled]="!ambulanceConfigForm.valid">Save</button>
+    <!--UNCOMMENT THIS WHEN U HAVE UR API ENDPOINTS AND REPLACE FALSE WITH !AMBULANCECONFIGFORM.VALID-->
+    <button ion-button block type="submit" [disabled]="false">Save</button>
   </form>
 </ion-content>
